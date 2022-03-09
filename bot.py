@@ -20,10 +20,10 @@ from telegram.ext   import ConversationHandler, PicklePersistence
 DEBUG               = True
 LOG                 = True
 
-PORT  = int(os.environ.get('PORT', 5000))
+PORT                = int(os.environ.get('PORT', 5000))
 TOKEN               = ""                                                # unique bot ID
-TOKEN = os.environ.get('TELEGRAM-TOKEN', 'fill in using Heroku dashboard')
-HEROKU_APP_URL = os.environ.get('HEROKU_APP_URL', 'fill in using Heroku dashboard')
+TOKEN               = os.environ.get('TELEGRAM-TOKEN', 'fill in using Heroku dashboard')
+HEROKU_APP_URL      = os.environ.get('HEROKU_APP_URL', 'fill in using Heroku dashboard')
 
 LNAME               = "leaderboard.pickle"                              # pickle file to store the list of cookies
 ONAME               = "log.txt"                                         # log file
