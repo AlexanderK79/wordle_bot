@@ -86,7 +86,10 @@ def set_last_day():
     for d in score_dict.values():
         l += list( d.keys() )
 
-    last_day    = max( l )
+    if len(l) == 0:
+        last_day = 0
+    else:
+        last_day    = max( l )
 
 
 def check_user( user, update ):
