@@ -24,15 +24,18 @@ PORT                = int(os.environ.get('PORT', 5000))
 TOKEN               = ""                                                # unique bot ID
 TOKEN               = os.environ.get('TELEGRAM-TOKEN', 'fill in using Heroku dashboard')
 HEROKU_APP_URL      = os.environ.get('HEROKU_APP_URL', 'fill in using Heroku dashboard')
+HEROKU_DB_URL       = os.environ.get('DATABASE_URL', 'fill in using Heroku dashboard')
 
 LNAME               = "leaderboard.pickle"                              # pickle file to store the list of cookies
+# store the pickle to a table called pickles, columns: id, name, data
+LBTABLE             = "pickles"
+LBCOLS              = ("id", "name", "data")
+
 ONAME               = "log.txt"                                         # log file
 
 # Enable logging
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    level=logging.INFO)
-logger = logging.getLogger(__name__)
-logger.info('Starting')
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+logger              = logging.getLogger(__name__)
 
 CHEAT               = 10                                                # score for cheating the game
 MISS                = 8                                                 # score for not playing the day
@@ -268,6 +271,9 @@ def save_score( update, context ):
     with open( LNAME, 'wb' ) as f:
         pickle.dump( score_dict, f, protocol=pickle.HIGHEST_PROTOCOL )
 
+    # save the dict to the table
+
+
     if LOG:
         logMsg = f"Day { day }\t{ user }\tscore { score }\n"
         logger.info(logMsg)
@@ -439,7 +445,7 @@ def show_help( update, context ):
 # ===================================================================================================================
 
 def main():
-    global score_dict
+    global score_dict, DBcon
 
     if LOG:
         with open( ONAME, 'w' ) as olog:
@@ -449,7 +455,28 @@ def main():
     else:
         print( ">>> BOT STARTED <<<" )
 
+    # # if exists, load the last pickled dict of leaderboard
+    # if os.path.isfile( LNAME ):
+    #     with open( LNAME, "rb" ) as f:
+    #         score_dict = pickle.load( f )
     # if exists, load the last pickled dict of leaderboard
+
+    # create a new database connection by calling the connect() function
+    DBcon = psycopg2.connect(HEROKU_DB_URL)
+    # if table does not exist, create it
+    # Create a cursor to perform database operations
+    cursor = DBcon.cursor()
+    # Print PostgreSQL details
+    print("PostgreSQL server information")
+    print(DBcon.get_dsn_parameters(), "\n")
+    # Executing a SQL query
+    cursor.execute("SELECT version();")
+    # Fetch result
+    record = cursor.fetchone()
+    print("You are connected to - ", record, "\n")
+
+
+    
     if os.path.isfile( LNAME ):
         with open( LNAME, "rb" ) as f:
             score_dict = pickle.load( f )
@@ -484,3 +511,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+    if DBcon is not None:
+        DBcon.close()
+        print('Database connection closed.')
