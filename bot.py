@@ -502,6 +502,7 @@ def main():
 
     # create table if it does not exist
     cursor.execute(f"CREATE TABLE IF NOT EXISTS {LBTABLE} {LBCOLS};")
+    cursor.execute(f"TRUNCATE TABLE {LBTABLE};")
     cursor.execute(f"INSERT INTO {LBTABLE} VALUES(%s,%s);", (LBNAME, ''))
     DBcon.commit()
     cursor.close()
