@@ -281,13 +281,13 @@ def save_score( update, context ):
     logger.debug("Content of blob", p)
     # save the dict to the DB
     cursor = DBcon.cursor()
-    cursor.execute(f"UPDATE {LBTABLE} SET {LBCOLNAME} = %s, {LBCOLBLOB} = %s);", (LBNAME, p))
+    cursor.execute(f"UPDATE {LBTABLE} SET {LBCOLBLOB} = %s WHERE {LBCOLNAME} = %s;", (p, LBNAME))
     DBcon.commit()
     cursor.close()
 
     # retrieve the pickle if it exists
     cursor = DBcon.cursor()
-    cursor.execute(f"SELECT {LBCOLBLOB} FROM {LBTABLE} WHERE name='{LNAME}';")
+    cursor.execute(f"SELECT {LBCOLBLOB} FROM {LBTABLE} WHERE name='{LBNAME}';")
     result = cursor.fetchone()
     if not result:
         logger.info("No pickle found after storing")
@@ -508,7 +508,7 @@ def main():
     
     # retrieve the pickle if it exists
     cursor = DBcon.cursor()
-    cursor.execute(f"SELECT {LBCOLBLOB} FROM {LBTABLE} WHERE name='{LNAME}';")
+    cursor.execute(f"SELECT {LBCOLBLOB} FROM {LBTABLE} WHERE name='{LBNAME}';")
     result = cursor.fetchone()
     if not result:
         logger.info("No pickle found")
