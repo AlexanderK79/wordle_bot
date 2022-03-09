@@ -29,7 +29,10 @@ HEROKU_DB_URL       = os.environ.get('DATABASE_URL', 'fill in using Heroku dashb
 LNAME               = "leaderboard.pickle"                              # pickle file to store the list of cookies
 # store the pickle to a table called pickles, columns: id, name, data
 LBTABLE             = "pickles"
-LBCOLS              = ("id", "name", "data")
+LBCOLNAME           = "name"
+LBCOLBLOB           = "blob"
+LBCOLS              = f"({LBCOLNAME} TEXT, {LBCOLBLOB} BYTEA)"
+LBNAME              = "wordle-en"
 
 ONAME               = "log.txt"                                         # log file
 
@@ -271,6 +274,14 @@ def save_score( update, context ):
     with open( LNAME, 'wb' ) as f:
         pickle.dump( score_dict, f, protocol=pickle.HIGHEST_PROTOCOL )
 
+    p = pickle.dumps(score_dict)
+    logger.info("Content of blob", p)
+    # save the dict to the DB
+    cursor = DBcon.cursor()
+    cursor.execute(f"INSERT INTO {LBTABLE} VALUES('{LNAME}','{p}');")
+    DBcon.commit()
+    cursor.close()
+
     # save the dict to the table
 
 
@@ -476,10 +487,21 @@ def main():
     print("You are connected to - ", record, "\n")
 
 
+    # create table if it does not exist
+    cursor.execute(f"CREATE TABLE IF NOT EXISTS {LBTABLE} {LBCOLS};")
+    DBcon.commit()
+    cursor.close()
     
-    if os.path.isfile( LNAME ):
-        with open( LNAME, "rb" ) as f:
-            score_dict = pickle.load( f )
+    # retrieve the pickle if it exists
+    cursor = DBcon.cursor()
+    cursor.execute(f"SELECT {LBCOLBLOB} FROM {LBTABLE} WHERE name='{LNAME}';")
+    result = cursor.fetchone()
+    if len(result) == 0:
+        logger.info("No pickle found")
+    else: 
+        score_dict = pickle.loads( result[0] )
+
+    cursor.close()
 
     set_last_day()
 
