@@ -265,8 +265,10 @@ def save_score( update, context ):
         pickle.dump( score_dict, f, protocol=pickle.HIGHEST_PROTOCOL )
 
     if LOG:
+        logMsg = f"Day { day }\t{ user }\tscore { score }\n"
+        logger.info(logMsg)
         olog     = open( ONAME, 'a' )
-        olog.write( f"Day { day }\t{ user }\tscore { score }\n" )
+        olog.write( logMsg )
         olog.close()
     else:
         if DEBUG:   print( score_dict )
@@ -437,7 +439,9 @@ def main():
 
     if LOG:
         with open( ONAME, 'w' ) as olog:
-            olog.write( ">>> BOT STARTED <<<\n" )
+            logMsg = ">>> BOT STARTED <<<\n"
+            logger.info(logMsg)
+            olog.write( logMsg )
     else:
         print( ">>> BOT STARTED <<<" )
 
