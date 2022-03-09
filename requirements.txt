@@ -1,5 +1,5 @@
-pickle
-os
-re
-numpy
+pickle>0
+os>0
+re>0
+numpy>0
 python-telegram-bot==12.7
