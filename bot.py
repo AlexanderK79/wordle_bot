@@ -496,7 +496,7 @@ def main():
     cursor = DBcon.cursor()
     cursor.execute(f"SELECT {LBCOLBLOB} FROM {LBTABLE} WHERE name='{LNAME}';")
     result = cursor.fetchone()
-    if len(result) == 0:
+    if not result:
         logger.info("No pickle found")
     else: 
         score_dict = pickle.loads( result[0] )
