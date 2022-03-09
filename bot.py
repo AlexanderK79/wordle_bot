@@ -11,6 +11,7 @@ import              pickle
 import              os
 import              re
 import              numpy   as np
+import              psycopg2
 from telegram       import ReplyKeyboardMarkup, Update, ReplyKeyboardRemove
 from telegram.ext   import Updater, CommandHandler, MessageHandler, Filters, messagehandler
 from telegram.ext   import ConversationHandler, PicklePersistence
