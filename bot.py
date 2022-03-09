@@ -291,7 +291,7 @@ def save_score( update, context ):
     if LOG:
         logMsg = f"Day { day }\t{ user }\tscore { score }\n"
         logger.info(logMsg)
-        olog     = open( ONAME, 'a' )
+        olog   = open( ONAME, 'a' )
         olog.write( logMsg )
         olog.close()
     else:
@@ -502,6 +502,7 @@ def main():
     if not result:
         logger.info("No pickle found")
     else: 
+        logger.info("Existing pickle loaded")
         score_dict = pickle.loads( result[0] )
 
     cursor.close()
