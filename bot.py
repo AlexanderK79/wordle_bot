@@ -27,6 +27,12 @@ HEROKU_APP_URL = os.environ.get('HEROKU_APP_URL', 'fill in using Heroku dashboar
 LNAME               = "leaderboard.pickle"                              # pickle file to store the list of cookies
 ONAME               = "log.txt"                                         # log file
 
+# Enable logging
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                    level=logging.INFO)
+logger = logging.getLogger(__name__)
+logger.info('Starting')
+
 CHEAT               = 10                                                # score for cheating the game
 MISS                = 8                                                 # score for not playing the day
 FAIL                = 7                                                 # score for not guessing the word
