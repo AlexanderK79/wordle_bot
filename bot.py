@@ -278,7 +278,7 @@ def save_score( update, context ):
     logger.debug("Content of blob", p)
     # save the dict to the DB
     cursor = DBcon.cursor()
-    SQLtext = "INSERT INTO %s VALUES(%s,%s);", (LBTABLE, LNAME, p)
+    SQLtext = "INSERT INTO %s VALUES(%s,%s);", (LBTABLE, LBCOLNAME, p)
     logger.debug("SQLtext: ", SQLtext)
     cursor.execute(SQLtext)
     DBcon.commit()
