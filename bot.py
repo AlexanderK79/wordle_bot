@@ -503,7 +503,6 @@ def main():
     # create table if it does not exist
     cursor.execute(f"CREATE TABLE IF NOT EXISTS {LBTABLE} {LBCOLS};")
     cursor.execute(f"TRUNCATE TABLE {LBTABLE};")
-    cursor.execute(f"INSERT INTO {LBTABLE} VALUES(%s,%s);", (LBNAME, ''))
     DBcon.commit()
     cursor.close()
     
@@ -513,6 +512,7 @@ def main():
     result = cursor.fetchone()
     if not result:
         logger.info("No pickle found")
+        cursor.execute(f"INSERT INTO {LBTABLE} VALUES(%s,%s);", (LBNAME, ''))
     else: 
         logger.info("Existing pickle loaded")
         score_dict = pickle.loads( result[0] )
