@@ -17,7 +17,7 @@ from telegram.ext   import Updater, CommandHandler, MessageHandler, Filters, mes
 from telegram.ext   import ConversationHandler, PicklePersistence
 
 
-DEBUG               = True
+DEBUG               = False
 LOG                 = True
 
 PORT                = int(os.environ.get('PORT', 5000))
@@ -37,7 +37,10 @@ LBNAME              = "wordle-en"
 ONAME               = "log.txt"                                         # log file
 
 # Enable logging
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
+if DEBUG:
+    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
+else: 
+    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger              = logging.getLogger(__name__)
 
 CHEAT               = 10                                                # score for cheating the game
@@ -278,9 +281,7 @@ def save_score( update, context ):
     logger.debug("Content of blob", p)
     # save the dict to the DB
     cursor = DBcon.cursor()
-    SQLtext = "INSERT INTO %s VALUES(%s,%s);", (LBTABLE, LBCOLNAME, p)
-    logger.debug("SQLtext: ", SQLtext)
-    cursor.execute(SQLtext)
+    cursor.execute("INSERT INTO %s VALUES(%s,%s);", (LBTABLE, LBCOLNAME, p))
     DBcon.commit()
     cursor.close()
 
