@@ -58,7 +58,8 @@ def main():
     print(f'Starting webhook on port {PORT} on {HEROKU_APP_URL}')
 
     # Start the Bot
-    updater.start_webhook(listen="0.0.0.0",
+    # # listen="0.0.0.0",
+    updater.start_webhook(
                           port=int(PORT),
                           url_path=TOKEN,
                           webhook_url=HEROKU_APP_URL + TOKEN)
