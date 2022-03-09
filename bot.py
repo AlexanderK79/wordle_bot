@@ -292,7 +292,7 @@ def save_score( update, context ):
     if not result:
         logger.info("No pickle found after storing")
     else: 
-        logger.info("Pickle sucessfully stored", result)
+        logger.info("Pickle sucessfully stored")
 
 
     # save the dict to the table
