@@ -478,13 +478,13 @@ def main():
     # Create a cursor to perform database operations
     cursor = DBcon.cursor()
     # Print PostgreSQL details
-    print("PostgreSQL server information")
-    print(DBcon.get_dsn_parameters(), "\n")
+    logger.debug("PostgreSQL server information")
+    logger.debug(DBcon.get_dsn_parameters(), "\n")
     # Executing a SQL query
     cursor.execute("SELECT version();")
     # Fetch result
     record = cursor.fetchone()
-    print("You are connected to - ", record, "\n")
+    logger.debug("You are connected to - ", record, "\n")
 
 
     # create table if it does not exist
