@@ -7,7 +7,7 @@ Author: liuhh02 https://medium.com/@liuhh02
 import logging
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import os
-PORT = int(os.environ.get('PORT', 5000))
+PORT = int(os.environ.get('TELEGRAM-PORT', 'fill in using Heroku dashboard'))
 TOKEN = os.environ.get('TELEGRAM-TOKEN', 'fill in using Heroku dashboard')
 HEROKU_APP_URL = os.environ.get('HEROKU_APP_URL', 'fill in using Heroku dashboard')
 
