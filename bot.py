@@ -281,7 +281,7 @@ def save_score( update, context ):
     logger.debug("Content of blob", p)
     # save the dict to the DB
     cursor = DBcon.cursor()
-    cursor.execute(f"INSERT INTO {LBTABLE} VALUES(%s,%s);", (LBCOLNAME, p))
+    cursor.execute(f"UPDATE {LBTABLE} SET {LBCOLNAME} = %s, {LBCOLBLOB} = %s);", (LBNAME, p))
     DBcon.commit()
     cursor.close()
 
@@ -502,6 +502,7 @@ def main():
 
     # create table if it does not exist
     cursor.execute(f"CREATE TABLE IF NOT EXISTS {LBTABLE} {LBCOLS};")
+    cursor.execute(f"INSERT INTO {LBTABLE} VALUES(%s,%s);", (LBNAME, ''))
     DBcon.commit()
     cursor.close()
     
