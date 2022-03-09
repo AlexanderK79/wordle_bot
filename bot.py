@@ -7,14 +7,15 @@ Author: liuhh02 https://medium.com/@liuhh02
 import logging
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import os
-PORT = int(os.environ.get('PORT', 443))
+PORT = int(os.environ.get('PORT', 5000))
+TOKEN = os.environ.get('TELEGRAM-TOKEN', 'fill in using Heroku dashboard')
+HEROKU_APP_URL = os.environ.get('HEROKU_APP_URL', 'fill in using Heroku dashboard')
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 
 logger = logging.getLogger(__name__)
-TOKEN = '5181201783:AAF87eUfT9YI_avoUJ9PPaKA9Tacy2mk5Fs'
 
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
@@ -54,11 +55,13 @@ def main():
     # log all errors
     dp.add_error_handler(error)
 
+    print(f'Starting webhook on port {PORT} on {HEROKU_APP_URL}')
+
     # Start the Bot
     updater.start_webhook(listen="0.0.0.0",
                           port=int(PORT),
                           url_path=TOKEN)
-    updater.bot.setWebhook('https://telegram-leaderboard-wordle-en.herokuapp.com/' + TOKEN)
+    updater.bot.setWebhook(HEROKU_APP_URL + TOKEN)
 
     # Run the bot until you press Ctrl-C or the process receives SIGINT,
     # SIGTERM or SIGABRT. This should be used most of the time, since
