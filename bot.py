@@ -292,7 +292,7 @@ def save_score( update, context ):
     if not result:
         logger.info("No pickle found after storing")
     else: 
-        logger.info("Pickle sucessfully stored")
+        logger.info("Pickle sucessfully stored", result)
 
 
     # save the dict to the table
@@ -502,7 +502,7 @@ def main():
 
     # create table if it does not exist
     cursor.execute(f"CREATE TABLE IF NOT EXISTS {LBTABLE} {LBCOLS};")
-    cursor.execute(f"TRUNCATE TABLE {LBTABLE};")
+    # cursor.execute(f"TRUNCATE TABLE {LBTABLE};")
     DBcon.commit()
     cursor.close()
     
