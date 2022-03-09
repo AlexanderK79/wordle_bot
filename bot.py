@@ -37,7 +37,7 @@ LBNAME              = "wordle-en"
 ONAME               = "log.txt"                                         # log file
 
 # Enable logging
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
 logger              = logging.getLogger(__name__)
 
 CHEAT               = 10                                                # score for cheating the game
@@ -275,10 +275,10 @@ def save_score( update, context ):
         pickle.dump( score_dict, f, protocol=pickle.HIGHEST_PROTOCOL )
 
     p = pickle.dumps(score_dict)
-    logger.info("Content of blob", p)
+    logger.debug("Content of blob", p)
     # save the dict to the DB
     cursor = DBcon.cursor()
-    cursor.execute(f"INSERT INTO {LBTABLE} VALUES('{LNAME}','{p}');")
+    cursor.execute("INSERT INTO %s VALUES(%s,%s);", (LBTABLE, LNAME, p))
     DBcon.commit()
     cursor.close()
 
