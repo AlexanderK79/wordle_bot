@@ -285,6 +285,16 @@ def save_score( update, context ):
     DBcon.commit()
     cursor.close()
 
+    # retrieve the pickle if it exists
+    cursor = DBcon.cursor()
+    cursor.execute(f"SELECT {LBCOLBLOB} FROM {LBTABLE} WHERE name='{LNAME}';")
+    result = cursor.fetchone()
+    if not result:
+        logger.info("No pickle found after storing")
+    else: 
+        logger.info("Pickle sucessfully stored")
+
+
     # save the dict to the table
 
 
