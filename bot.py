@@ -7,7 +7,7 @@ Author: liuhh02 https://medium.com/@liuhh02
 import logging
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import os
-PORT = int(os.environ.get('TELEGRAM-PORT', 'fill in using Heroku dashboard'))
+PORT  = int(os.environ.get('TELEGRAM-PORT', 'fill in using Heroku dashboard'))
 TOKEN = os.environ.get('TELEGRAM-TOKEN', 'fill in using Heroku dashboard')
 HEROKU_APP_URL = os.environ.get('HEROKU_APP_URL', 'fill in using Heroku dashboard')
 
@@ -58,8 +58,8 @@ def main():
     print(f'Starting webhook on port {PORT} on {HEROKU_APP_URL}')
 
     # Start the Bot
-    # # listen="0.0.0.0",
-    updater.start_webhook(
+    # # 
+    updater.start_webhook(listen="0.0.0.0",
                           port=int(PORT),
                           url_path=TOKEN,
                           webhook_url=HEROKU_APP_URL + TOKEN)
