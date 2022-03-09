@@ -274,8 +274,8 @@ def save_score( update, context ):
     add_score( user, day, score )
 
     # save the dict
-    with open( LNAME, 'wb' ) as f:
-        pickle.dump( score_dict, f, protocol=pickle.HIGHEST_PROTOCOL )
+    # with open( LNAME, 'wb' ) as f:
+    #     pickle.dump( score_dict, f, protocol=pickle.HIGHEST_PROTOCOL )
 
     p = pickle.dumps(score_dict)
     logger.debug("Content of blob", p)
